@@ -1,0 +1,8 @@
+@mixin three-round-borders {
+  border-radius: 0.6rem 0.6rem 0 0.6rem;
+}
+
+@mixin round-border {
+  border: 2px solid white;
+  border-radius: 0.5rem;
+}

@@ -1,0 +1,33 @@
+header {
+  background: rgb(142, 142, 147);
+  @include three-round-borders;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 60px;
+  width: 100%;
+  -webkit-box-shadow: 10px 10px 5px -10px rgba(0, 0, 0, 0.51);
+  -moz-box-shadow: 10px 10px 5px -10px rgba(0, 0, 0, 0.51);
+  box-shadow: 10px 10px 5px -10px rgba(0, 0, 0, 0.51);
+
+  nav {
+    margin: 0 1rem 0;
+
+    a {
+      text-decoration: none;
+      color: #fff;
+    }
+  }
+}
+
+.header__logo {
+  margin: 0 0 0 1rem;
+}
+
+.header__logo__svg {
+  opacity: 0.9;
+}
+
+.header__logo__text {
+  color: #fff;
+}
