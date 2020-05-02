@@ -2,7 +2,8 @@
   border-radius: 0.6rem 0.6rem 0 0.6rem;
 }
 
-@mixin round-border {
-  border: 2px solid white;
-  border-radius: 0.5rem;
+@mixin box-shadow {
+  -webkit-box-shadow: 10px 10px 5px -10px rgba(0, 0, 0, 0.51);
+  -moz-box-shadow: 10px 10px 5px -10px rgba(0, 0, 0, 0.51);
+  box-shadow: 10px 10px 5px -10px rgba(0, 0, 0, 0.51);
 }

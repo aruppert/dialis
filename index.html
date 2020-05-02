@@ -5,6 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
     <script defer src="/js/main.js"></script>
+    <!-- <link
+      href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap"
+      rel="stylesheet"
+    /> -->
+    <!-- <link
+      href="https://fonts.googleapis.com/css2?family=Bangers&display=swap"
+      rel="stylesheet"
+    /> -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap"
+      rel="stylesheet"
+    />
     <title>dialis - Playlist challenge in challenging times #stayhome</title>
   </head>
   <body>
@@ -20,19 +32,95 @@
         <span class="header__logo__text">dialis</span>
       </div>
       <nav>
-        <a href="/">Home</a>
+        <a href="/">Search</a>
         <a href="/playlist">Playlist</a>
       </nav>
     </header>
-    <!-- <main>
-      <h1>Welcome to my dialis app  - WIP - enjoy!</h1>
-      <p>
-        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Distinctio
-        laboriosam voluptatum fuga ex soluta rerum error voluptate, unde rem
-        esse, accusantium possimus necessitatibus veniam cupiditate quam ea
-        placeat nihil est!
-      </p>
+    <main>
+      <div class="search">
+        <input
+          type="search"
+          name="search-input"
+          class="search-input"
+          id="search-input"
+          placeholder="Search here..."
+        /><button class="search__button">
+          Do it!
+        </button>
+      </div>
+
+      <div class="results">
+        <div class="result__card">
+          <div class="result__card__content">
+            <div class="result__card__image">
+              <img
+                class="result__card__image__tag"
+                src="https://is2-ssl.mzstatic.com/image/thumb/Music118/v4/24/46/97/24469731-f56f-29f6-67bd-53438f59ebcb/source/100x100bb.jpg"
+                alt="Artwork thumb nail"
+              />
+            </div>
+            <div class="result__card__info">
+              <div class="result__card__info__row1">
+                <div class="result__card__artist">
+                  <label>🧑‍🎨: </label>Jack Johnson
+                </div>
+                <div class="result__card__track">
+                  <label>🎼: </label>Better Together
+                </div>
+              </div>
+              <div class="result__card__info__row2">
+                <div class="result__card__collection">
+                  <label>💽: </label>In Between Dreams
+                </div>
+                <div class="result__card__genre"><label>🎭: </label>Rock</div>
+              </div>
+              <div class="result__card__info__row3">
+                <div class="result__card__iframe-container">
+                  <iframe
+                    src="https://iframe-ssl.itunes.apple.com/itunes-assets/AudioPreview118/v4/94/25/9c/94259c23-84ee-129d-709c-577186cbe211/mzaf_5653537699505456197.plus.aac.p.m4a"
+                    frameborder="0"
+                  ></iframe>
+                </div>
+                <div class="result__card__release">
+                  <label>📅: </label>01.03.05
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
     </main>
-    <footer></footer> -->
+    <footer>
+      <button class="footer__mail-button">
+        <div class="footer__mail-button__icon">
+          <img
+            class="footer__mail-button__svg"
+            src="/svg/paper-plane.svg"
+            alt="Paper plane logo"
+          />
+        </div>
+        <span class="footer__mail-button__text">send </span>
+      </button>
+      <button class="footer__search-button">
+        <div class="footer__search-button__icon">
+          <img
+            class="footer__search-button__svg"
+            src="/svg/search-glass.svg"
+            alt="Search glass logo"
+          />
+        </div>
+        <span class="footer__search-button__text">search </span>
+      </button>
+      <button class="footer__playlist-button">
+        <div class="footer__playlist-button__icon">
+          <img
+            class="footer__playlist-button__svg"
+            src="/svg/playlist.svg"
+            alt="Playlist logo"
+          />
+        </div>
+        <span class="footer__playlist-button__text">playlist</span>
+      </button>
+    </footer>
   </body>
 </html>
