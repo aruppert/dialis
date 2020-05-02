@@ -44,47 +44,60 @@
           class="search-input"
           id="search-input"
           placeholder="Search here..."
-        /><button class="search__button">
+        />
+        <!-- <button class="search__button">
           Do it!
-        </button>
+        </button> -->
       </div>
-
       <div class="results">
-        <div class="result__card">
+        <div class="result__card" data-id="${trackId}">
           <div class="result__card__content">
             <div class="result__card__image">
               <img
                 class="result__card__image__tag"
-                src="https://is2-ssl.mzstatic.com/image/thumb/Music118/v4/24/46/97/24469731-f56f-29f6-67bd-53438f59ebcb/source/100x100bb.jpg"
+                src="${artworkUrl100}"
                 alt="Artwork thumb nail"
               />
             </div>
             <div class="result__card__info">
               <div class="result__card__info__row1">
                 <div class="result__card__artist">
-                  <label>🧑‍🎨: </label>Jack Johnson
+                  <span>🧑‍🎨: </span>${artistName}
                 </div>
-                <div class="result__card__track">
-                  <label>🎼: </label>Better Together
+                <div class="result__card__track" id="${trackId}">
+                  <span>🎼: </span>${trackName}
                 </div>
               </div>
               <div class="result__card__info__row2">
                 <div class="result__card__collection">
-                  <label>💽: </label>In Between Dreams
+                  <span>💽: </span>${collectionName}
                 </div>
-                <div class="result__card__genre"><label>🎭: </label>Rock</div>
+                <div class="result__card__genre">
+                  <span>🎭: </span>${primaryGenreName}
+                </div>
               </div>
               <div class="result__card__info__row3">
                 <div class="result__card__iframe-container">
-                  <iframe
-                    src="https://iframe-ssl.itunes.apple.com/itunes-assets/AudioPreview118/v4/94/25/9c/94259c23-84ee-129d-709c-577186cbe211/mzaf_5653537699505456197.plus.aac.p.m4a"
-                    frameborder="0"
-                  ></iframe>
+                  <iframe autoplay="0" src="" frameborder="0"></iframe>
                 </div>
                 <div class="result__card__release">
-                  <label>📅: </label>01.03.05
+                  <span>📅: </span>${newReleaseDate}
                 </div>
               </div>
+            </div>
+            <div class="result__card__buttons">
+              <button class="result__card__up hidden">
+                <img src="/svg/up.svg" alt="up icon" />
+              </button>
+              <button class="result__card__down hidden">
+                <img src="/svg/down.svg" alt="down icon" />
+              </button>
+              <button class="result__card__add">
+                <img src="/svg/add.svg" alt="add icon" />
+              </button>
+              <button class="result__card__delete hidden">
+                <img src="/svg/delete.svg" alt="Delete icon" />
+              </button>
             </div>
           </div>
         </div>
@@ -113,11 +126,14 @@
       </button>
       <button class="footer__playlist-button">
         <div class="footer__playlist-button__icon">
-          <img
-            class="footer__playlist-button__svg"
-            src="/svg/playlist.svg"
-            alt="Playlist logo"
-          />
+          <div class="footer__playlist-button__wrapper">
+            <img
+              class="footer__playlist-button__svg"
+              src="/svg/playlist.svg"
+              alt="Playlist logo"
+            />
+            <div class="footer__playlist__counter">-</div>
+          </div>
         </div>
         <span class="footer__playlist-button__text">playlist</span>
       </button>

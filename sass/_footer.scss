@@ -35,3 +35,22 @@ footer {
 .footer__logo__text {
   color: #fff;
 }
+
+.footer__playlist-button__icon,
+.footer__playlist-button__wrapper {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.footer__playlist-button__svg {
+  //   justify-content: flex-start;
+  //   justify-self: flex-start;
+  //   align-self: center;
+}
+
+.footer__playlist__counter {
+  //   justify-items: flex-end;
+  align-self: center;
+  color: $accent-color2;
+}
