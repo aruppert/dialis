@@ -1,0 +1,37 @@
+footer {
+  background: $main-color;
+  @include three-round-borders;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 60px;
+  width: 100%;
+}
+
+.footer__playlist-button,
+.footer__mail-button,
+.footer__search-button {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  background: transparent;
+  border: none;
+}
+
+.footer__playlist-button__text,
+.footer__mail-button__text,
+.footer__search-button__text {
+  color: white;
+}
+
+.footer__logo {
+  margin: 0 0 0 1rem;
+}
+
+.footer__logo__svg {
+  opacity: 0.9;
+}
+
+.footer__logo__text {
+  color: #fff;
+}

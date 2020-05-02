@@ -1,0 +1,19 @@
+.search {
+  display: flex;
+  justify-content: space-between;
+  margin: 1rem auto;
+}
+
+#search-input {
+  flex-grow: 1;
+  border: 2px solid $main-color;
+  @include three-round-borders;
+  padding: 0 1rem;
+}
+
+.search__button {
+  background: $main-color;
+  @include three-round-borders;
+  color: $light-color;
+  margin: 0 0 0 0.5rem;
+}
