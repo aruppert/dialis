@@ -5,14 +5,6 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
     <script defer src="/js/main.js"></script>
-    <!-- <link
-      href="https://fonts.googleapis.com/css2?family=Permanent+Marker&display=swap"
-      rel="stylesheet"
-    /> -->
-    <!-- <link
-      href="https://fonts.googleapis.com/css2?family=Bangers&display=swap"
-      rel="stylesheet"
-    /> -->
     <link
       href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap"
       rel="stylesheet"
@@ -32,19 +24,67 @@
         <span class="header__logo__text">dialis</span>
       </div>
       <nav>
-        <a href="/">Search</a>
-        <a href="/playlist">Playlist</a>
+        <a href="/">Clean up</a>
+        <button class="header__paste">Paste</button>
       </nav>
     </header>
     <main>
       <div class="search">
-        <input
-          type="search"
-          name="search-input"
-          class="search-input"
-          id="search-input"
-          placeholder="Search here..."
-        />
+        <div class="search__bar">
+          <input
+            type="search"
+            name="search-input"
+            class="search-input"
+            id="search-input"
+            placeholder="Search here..."
+          />
+        </div>
+        <div class="search__options">
+          <div class="search__options__music">
+            <input
+              type="checkbox"
+              name="music"
+              id="music"
+              class="search__options__music-input"
+              checked
+              onclick="handleCheckboxClick(this)"
+            />
+            <label for="music">music</label>
+          </div>
+          <div class="search__options__podcast">
+            <input
+              type="checkbox"
+              name="podcast"
+              id="podcast"
+              class="search__options__podcast-input"
+              onclick="handleCheckboxClick(this)"
+            />
+            <label for="podcast">podcast</label>
+          </div>
+          <div class="search__options__audiobook">
+            <input
+              type="checkbox"
+              name="audiobook"
+              id="audiobook"
+              class="search__options__audiobook-input"
+              onclick="handleCheckboxClick(this)"
+            />
+            <label for="audiobook">audiobook</label>
+          </div>
+          <div class="search__options__limit">
+            <input
+              type="number"
+              min="1"
+              max="50"
+              name="limit"
+              id="limit"
+              class="search__options__limit-input"
+              placeholder="5"
+            />
+            <label for="limit">results</label>
+          </div>
+        </div>
+
         <!-- <button class="search__button">
           Do it!
         </button> -->
@@ -102,6 +142,10 @@
           </div>
         </div>
       </div>
+      <div class="playlist__preview hidden">
+        <p class="playlist__preview__text"></p>
+        <a href="#" class="playlist__preview__mailto"> Send now! 📤</a>
+      </div>
     </main>
     <footer>
       <button class="footer__mail-button">
@@ -109,12 +153,22 @@
           <img
             class="footer__mail-button__svg"
             src="/svg/paper-plane.svg"
-            alt="Paper plane logo"
+            alt="Paper plane icon"
           />
         </div>
         <span class="footer__mail-button__text">send </span>
       </button>
-      <button class="footer__search-button">
+      <button class="footer__paste-button">
+        <div class="footer__paste-button__icon">
+          <img
+            class="footer__paste-button__svg"
+            src="/svg/paste.svg"
+            alt="clipboard icon"
+          />
+        </div>
+        <span class="footer__paste-button__text">paste code</span>
+      </button>
+      <!-- <button class="footer__search-button">
         <div class="footer__search-button__icon">
           <img
             class="footer__search-button__svg"
@@ -123,14 +177,14 @@
           />
         </div>
         <span class="footer__search-button__text">search </span>
-      </button>
+      </button> -->
       <button class="footer__playlist-button">
         <div class="footer__playlist-button__icon">
           <div class="footer__playlist-button__wrapper">
             <img
               class="footer__playlist-button__svg"
               src="/svg/playlist.svg"
-              alt="Playlist logo"
+              alt="Playlist icon"
             />
             <div class="footer__playlist__counter">-</div>
           </div>

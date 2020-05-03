@@ -10,7 +10,8 @@ footer {
 
 .footer__playlist-button,
 .footer__mail-button,
-.footer__search-button {
+.footer__search-button,
+.footer__paste-button {
   display: flex;
   flex-flow: column;
   align-items: center;
@@ -21,7 +22,10 @@ footer {
 .footer__playlist-button__text,
 .footer__mail-button__text,
 .footer__search-button__text {
-  color: white;
+  color: $light-color;
+}
+.footer__paste-button__text {
+  color: $accent-color2;
 }
 
 .footer__logo {
@@ -33,7 +37,7 @@ footer {
 }
 
 .footer__logo__text {
-  color: #fff;
+  color: $light-color;
 }
 
 .footer__playlist-button__icon,
@@ -43,14 +47,7 @@ footer {
   width: 100%;
 }
 
-.footer__playlist-button__svg {
-  //   justify-content: flex-start;
-  //   justify-self: flex-start;
-  //   align-self: center;
-}
-
 .footer__playlist__counter {
-  //   justify-items: flex-end;
   align-self: center;
   color: $accent-color2;
 }

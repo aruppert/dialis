@@ -1,14 +1,16 @@
 .search {
   display: flex;
-  justify-content: space-between;
+  flex-flow: column;
   margin: 1rem auto;
 }
 
-#search-input {
+.search-input {
   flex-grow: 1;
   border: 2px solid $main-color;
   @include three-round-borders;
   padding: 0 1rem;
+  width: 100%;
+  @include box-shadow;
 }
 
 .search__button {
@@ -16,4 +18,25 @@
   @include three-round-borders;
   color: $light-color;
   margin: 0 0 0 0.5rem;
+}
+
+.search__options {
+  display: flex;
+  //   @include border-main-color;
+  font-size: 0.75rem;
+  margin: 0.4rem 0 0;
+}
+
+.search__options__music,
+.search__options__podcasts,
+.search__options__audiobooks {
+  //   color: $main-color;
+  margin: 0 0.5rem 0;
+  display: flex;
+  align-items: center;
+}
+
+.search__options__limit-input {
+  border: 2px solid $main-color;
+  @include three-round-borders;
 }
