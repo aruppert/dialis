@@ -1,0 +1,24 @@
+.playlist__preview {
+  display: flex;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
+  background: $light-color;
+  z-index: 100;
+  position: absolute;
+  height: 10rem;
+  width: 18rem;
+  top: 50vh;
+  left: calc(50vw - 9rem);
+  @include border-main-color;
+  @include three-round-borders;
+  transform: translateX(-50%);
+  transform: translateY(-50%);
+
+  p {
+    text-align: center;
+  }
+  a {
+    font-size: 1.4rem;
+  }
+}

@@ -10,6 +10,7 @@
   width: 98%;
   margin: 0.4rem 0 0;
   position: relative;
+  @include box-shadow;
 }
 
 .result__card__content {
@@ -102,5 +103,9 @@
 }
 
 .hidden {
-  display: none;
+  visibility: hidden;
 }
+
+// .visible {
+//   visibility: visible;
+// }

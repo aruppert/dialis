@@ -1,7 +1,14 @@
 let results = [];
 let lastSearchResults = [];
 let playlistData = [];
-
+let playlistPreview = "";
+let recipient = "pleaseChange@thisAdress.now";
+let counter = 0;
+let mediaCategoryMusic = "media=music";
+let mediaCategoryPodcast = null;
+let mediaCategoryAudiobook = null;
+let mediaArray = ["music"];
+let mediaTypes = "";
 const defaultResults = [
   {
     wrapperType: "track",
@@ -101,10 +108,22 @@ const defaultResults = [
   },
 ];
 
+function constructURL() {
+  if (mediaArray == []) {
+    return;
+  }
+  let searchString = "";
+  mediaArray.forEach(function (e) {
+    searchString += `media=${e}&`;
+  });
+  mediaTypes = searchString;
+}
+
 (function initialize() {
   results = [...defaultResults];
 
   displaySearchResults(results);
+
   document
     .querySelector(".search-input")
     .addEventListener("change", searchForMedia);
@@ -117,9 +136,25 @@ const defaultResults = [
     .querySelector(".footer__playlist-button")
     .addEventListener("click", handleClickOnPlaylist);
 
+  //   document
+  //     .querySelector(".footer__search-button")
+  //     .addEventListener("click", handleClickOnSearchGlass);
+
   document
-    .querySelector(".footer__search-button")
-    .addEventListener("click", handleClickOnSearchGlass);
+    .querySelector(".footer__paste-button")
+    .addEventListener("click", handleClickOnPaste);
+
+  document
+    .querySelector(".footer__mail-button")
+    .addEventListener("click", handleClickOnSend);
+
+  document
+    .querySelector(".header__paste")
+    .addEventListener("click", handleClickOnPaste);
+
+  document
+    .querySelector(".playlist__preview__mailto")
+    .addEventListener("click", hidePreviewAndSendNow);
 })();
 
 function getResultCardHtml({
@@ -131,6 +166,7 @@ function getResultCardHtml({
   previewUrl,
   primaryGenreName,
   releaseDate,
+  kind,
 }) {
   const dateFromAPI = releaseDate;
   const newDateFormat = new Date(releaseDate);
@@ -170,6 +206,9 @@ function getResultCardHtml({
         <div class="result__card__release">
           <span>📅: </span>${newReleaseDate}
         </div>
+        <div class="result__card__kind">
+          <span>🔊: </span>${kind}
+        </div>
       </div>
     </div>
     <div class="result__card__buttons">
@@ -199,7 +238,24 @@ function displaySearchResults(results) {
   document.querySelector(".results").innerHTML = resultsHtml;
 }
 
+function handleCheckboxClick(e) {
+  const value = e.id;
+  if (e.checked) {
+    if (mediaArray.indexOf(value) >= 0) {
+      return;
+    }
+    mediaArray.push(value);
+    return mediaArray;
+  }
+  {
+    const index = mediaArray.indexOf(value);
+    mediaArray.splice(index, 1);
+    return mediaArray;
+  }
+}
+
 async function searchForMedia(e) {
+  constructURL();
   const searchTerm = e.currentTarget.value;
 
   if (!searchTerm) {
@@ -209,7 +265,7 @@ async function searchForMedia(e) {
     return;
   }
   try {
-    const appleAPIUrl = `https://itunes.apple.com/search?term=${searchTerm}&limit=10`;
+    const appleAPIUrl = `https://itunes.apple.com/search?${mediaTypes}term=${searchTerm}&limit=25`;
 
     const response = await fetch(appleAPIUrl);
 
@@ -232,13 +288,10 @@ function handleClickOnResults(e) {
   const clickedCardDeleteButton = clickedElement.closest(
     ".result__card__delete"
   );
-  console.log(clickedCardAddButton);
-  console.log(clickedCardDeleteButton);
+
   if (clickedCardAddButton) {
     const trackId = clickedCardAddButton.dataset.id;
-    console.log(trackId);
     let index = lastSearchResults.findIndex((p) => p.trackId == trackId);
-    console.log(index);
     if (index >= 0) {
       playlistData.push(lastSearchResults[index]);
       updatePlaylistItemCounter(playlistData);
@@ -251,7 +304,6 @@ function handleClickOnResults(e) {
   }
   if (clickedCardDeleteButton) {
     const trackId = clickedCardDeleteButton.dataset.id;
-    console.log(trackId);
     //TODO: Delete function
     handleClickOnPlaylist();
     // }
@@ -264,7 +316,7 @@ function updatePlaylistItemCounter(playlist) {
     return;
   }
 
-  const counter = playlistData.length;
+  counter = playlistData.length;
   document.querySelector(".footer__playlist__counter").innerHTML = counter;
 }
 
@@ -286,4 +338,57 @@ function handleClickOnSearchGlass() {
   scroll(0, 0);
   //   const resultsHtml = ` Screen cleared - Enter term in search bar for a new search - to clear playlist you (still) have to reload this page - Thx`;
   //   document.querySelector(".results").innerHTML = resultsHtml;
+}
+
+function createPreviewPlaylistForMail(playlist) {
+  for (let i = 0; i < playlist.length; i++) {
+    let position = i + 1;
+    playlistPreview += `${position}.%20${playlist[i].trackName}%20-%20${playlist[i].artistName}%20(${playlist[i].collectionName})%0d`;
+  }
+  return playlistPreview;
+}
+
+async function handleClickOnPaste() {
+  const clipboardContent = await navigator.clipboard.readText();
+  const arrayFromClipboard = await JSON.parse(clipboardContent);
+
+  playlistData = arrayFromClipboard;
+
+  updatePlaylistItemCounter(playlistData);
+  handleClickOnPlaylist();
+}
+
+function handleClickOnSend() {
+  createPreviewPlaylistForMail(playlistData);
+  showPreviewPlaylist();
+  const playlistStringified = JSON.stringify(playlistData);
+  const subject =
+    "❤️%20A%20playlist%20for%20you%20from%20someone%20who%20cares!%20powered%20by%20dialis.code%20-%20your%20playlist%20app";
+  const mailBody = createMailBody(playlistStringified);
+
+  document.querySelector(
+    ".playlist__preview__mailto"
+  ).href = `mailto:${recipient}?subject=${subject}&body=${mailBody}`;
+  cl();
+  document.querySelector(".playlist__preview").classList.remove("hidden");
+}
+
+function createMailBody(playlistStringified) {
+  const instructions = `▲%20Above%20this%20text%20you%20can%20see%20the%20plain%20content%20of%20your%20list.%20If%20you%20copy%20the%20whole%20chunk%20of%20code%20below%20▼%20this%20text%20to%20the%20clipboard%20(including%20the%20"[]"%20),%20you%20can%20go%20to%20www.dialis.code%20and%20click%20the%20"Paste"-Button%20to%20listen%20to%20and%20edit%20it.%20-%20Enjoy!`;
+
+  const mailBody = `${playlistPreview}%0d%0d${instructions}%0d%0d${playlistStringified}`;
+  return mailBody;
+}
+
+function showPreviewPlaylist() {
+  const confirmation = `📨... Your playlist has ${counter} songs. Email generated:`;
+  document.querySelector(".playlist__preview__text").innerText = confirmation;
+}
+
+function hidePreviewAndSendNow() {
+  document.querySelector(".playlist__preview").classList.add("hidden");
+}
+
+function cl(text) {
+  console.log("Test", "next", text);
 }

@@ -18,6 +18,12 @@ header {
   }
 }
 
+.header__paste {
+  color: $accent-color2;
+  background: transparent;
+  border: none;
+}
+
 .header__logo {
   margin: 0 0 0 2rem;
 }
