@@ -22,3 +22,13 @@
     font-size: 1.4rem;
   }
 }
+.playlist {
+  display: none;
+  border-radius: 0.6rem;
+  border: 2px solid $main-color;
+  width: 99%;
+  margin: 0.4rem;
+  @include desktop {
+    display: block;
+  }
+}

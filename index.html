@@ -89,70 +89,62 @@
           Do it!
         </button> -->
       </div>
-      <div class="results">
-        <div class="result__card">
-          <div class="result__card__content">
-            <div class="result__card__image">
-              <a
-                href="${collectionViewUrl}"
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <img
-                  class="result__card__image__tag"
-                  src="${artworkUrl100}"
-                  alt="Artwork thumb nail"
-                />
-              </a>
-            </div>
-            <div class="result__card__info">
-              <div class="result__card__info__row1">
-                <div class="result__card__artist">
-                  <a
-                    href="${artistURL}"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    >🧑‍🎨: ${artistName}</a
-                  >
-                </div>
-                <div class="result__card__track">
-                  <a
-                    href="${trackViewUrl}"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    >🏷: ${trackName}</a
-                  >
+      <div class="main__content">
+        <div class="results">
+          <div class="result__card">
+            <div class="result__card__content">
+              <div class="result__card__image">
+                <a
+                  href="${collectionViewUrl}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <img
+                    class="result__card__image__tag"
+                    src="${artworkUrl100}"
+                    alt="Artwork thumb nail"
+                  />
+                </a>
+              </div>
+              <div class="result__card__artist">
+                <a href="${artistURL}" target="_blank" rel="noopener noreferrer"
+                  >🧑‍🎨: ${artistName}</a
+                >
+              </div>
+              <div class="result__card__track">
+                <a
+                  href="${trackViewUrl}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >🏷: ${trackName}</a
+                >
+              </div>
+              <div class="result__card__collection">
+                <a
+                  href="${collectionViewUrl}"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  >💽: ${collectionName}
+                </a>
+              </div>
+              <div class="result__card__release-kind">
+                <div class="result__card__release">
+                  <span>📅: </span>${newReleaseDate}
                 </div>
                 <div class="result__card__kind">
                   <span>Type: </span>${kindEmoji}
                 </div>
               </div>
-              <div class="result__card__info__row2">
-                <div class="result__card__collection">
-                  <a
-                    href="${collectionViewUrl}"
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    >💽: ${collectionName}
-                  </a>
-                </div>
-                <div class="result__card__genre">
-                  <span>🎭: </span>${primaryGenreName}
-                </div>
-                <div class="result__card__release">
-                  <span>📅: </span>${newReleaseDate}
-                </div>
+              <div class="result__card__audio-container">
+                <audio
+                  class="result__card__audio__player"
+                  controls
+                  preload="none"
+                >
+                  <source src="${previewUrl}" type="audio/mp4" />
+                  <p>Your browser does not support HTML5 audio.</p>
+                </audio>
               </div>
-              <div class="result__card__info__row3">
-                <div class="result__card__iframe-container">
-                  <audio controls preload="none">
-                    <source src="${previewUrl}" type="audio/mp4" />
-                    <p>Your browser does not support HTML5 audio.</p>
-                  </audio>
-                </div>
-              </div>
-            </div>
-            <div class="result__card__buttons">
               <button class="result__card__up hidden">
                 <img src="/svg/up.svg" alt="up icon" />
               </button>
@@ -168,7 +160,9 @@
             </div>
           </div>
         </div>
+        <div class="playlist"></div>
       </div>
+
       <div class="playlist__preview hidden">
         <p class="playlist__preview__text"></p>
         <a href="#" class="playlist__preview__mailto"> Send now! 📤</a>

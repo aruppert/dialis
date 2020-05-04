@@ -208,6 +208,7 @@ const defaultResults = [
   results = [...defaultResults];
 
   displaySearchResults(results);
+  addToDesktopPlaylist();
 
   document
     .querySelector(".search-input")
@@ -259,7 +260,7 @@ function getResultCardHtml({
 }) {
   const newDateFormat = new Date(releaseDate);
   let newReleaseDate = JSON.stringify(newDateFormat);
-  newReleaseDate = newReleaseDate.slice(3, 11);
+  newReleaseDate = newReleaseDate.slice(1, 11);
   let kindEmoji = "";
   switch (kind) {
     case "song":
@@ -279,7 +280,7 @@ function getResultCardHtml({
   {
     artistURL = artistViewUrl;
   }
-  const html = `    <div class="result__card">
+  const html = ` <div class="result__card">
   <div class="result__card__content">
     <div class="result__card__image">
       <a
@@ -294,67 +295,53 @@ function getResultCardHtml({
         />
       </a>
     </div>
-    <div class="result__card__info">
-      <div class="result__card__info__row1">
-        <div class="result__card__artist">
-          <a
-            href="${artistURL}"
-            target="_blank"
-            rel="noopener noreferrer"
-            >🧑‍🎨: ${artistName}</a
-          >
-        </div>
-        <div class="result__card__track">
-          <a
-            href="${trackViewUrl}"
-            target="_blank"
-            rel="noopener noreferrer"
-            >🏷: ${trackName}</a
-          >
-        </div>
-        <div class="result__card__kind">
-          <span>Type: </span>${kindEmoji}
-        </div>
-      </div>
-      <div class="result__card__info__row2">
-        <div class="result__card__collection">
-          <a
-            href="${collectionViewUrl}"
-            target="_blank"
-            rel="noopener noreferrer"
-            >💽: ${collectionName}
-          </a>
-        </div>
-        <div class="result__card__genre">
-          <span>🎭: </span>${primaryGenreName}
-        </div>
-        <div class="result__card__release">
-          <span>📅: </span>${newReleaseDate}
-        </div>
-      </div>
-      <div class="result__card__info__row3">
-        <div class="result__card__iframe-container">
-          <audio controls preload="none">
-            <source src="${previewUrl}" type="audio/mp4" />
-            <p>Your browser does not support HTML5 audio.</p>
-          </audio>
-        </div>
+    <div class="result__card__artist">
+      <a href="${artistURL}" target="_blank" rel="noopener noreferrer"
+        >🧑‍🎨: ${artistName}</a
+      >
+    </div>
+    <div class="result__card__track">
+      <a
+        href="${trackViewUrl}"
+        target="_blank"
+        rel="noopener noreferrer"
+        >🏷: ${trackName}</a
+      >
+    </div>
+    <div class="result__card__collection">
+      <a
+        href="${collectionViewUrl}"
+        target="_blank"
+        rel="noopener noreferrer"
+        >💽: ${collectionName}
+      </a>
+    </div>
+    <div class="result__card__release-kind">
+    <div class="result__card__kind">
+      ${kindEmoji}- 
+    </div>
+      <div class="result__card__release">
+        <span>📅: </span>${newReleaseDate}
       </div>
     </div>
-    <div class="result__card__buttons">
-      <button class="result__card__up hidden">
-        <img src="/svg/up.svg" alt="up icon" />
-      </button>
-      <button class="result__card__down hidden">
-        <img src="/svg/down.svg" alt="down icon" />
-      </button>
-      <button class="result__card__add" data-id="${trackId}">
-        <img src="/svg/add.svg" alt="add icon" />
-      </button>
-      <button class="result__card__delete hidden" data-id="${trackId}">
-        <img src="/svg/delete.svg" alt="Delete icon" />
-      </button>
+    <div class="result__card__audio-container">
+      <audio class="result__card__audio__player" controls preload="none">
+        <source src="${previewUrl}" type="audio/mp4" />
+        <p>Your browser does not support HTML5 audio.</p>
+      </audio>
     </div>
+    <button class="result__card__up hidden" data-id="${trackId}">
+      <img src="/svg/up.svg" alt="up icon" />
+    </button>
+    <button class="result__card__down hidden" data-id="${trackId}">
+      <img src="/svg/down.svg" alt="down icon" />
+    </button>
+    <button class="result__card__add" data-id="${trackId}">
+      <img src="/svg/add.svg" alt="add icon" />
+    </button>
+    <button class="result__card__delete hidden" data-id="${trackId}">
+      <img src="/svg/delete.svg" alt="Delete icon" />
+    </button>
   </div>
 </div>
 `;
@@ -368,6 +355,14 @@ function displaySearchResults(results) {
     resultsHtml += getResultCardHtml(result);
   }
   document.querySelector(".results").innerHTML = resultsHtml;
+}
+
+function displayPlaylistSection(results) {
+  let playlistHtml = ``;
+  for (let result of results) {
+    playlistHtml += getResultCardHtml(result);
+  }
+  document.querySelector(".playlist").innerHTML = playlistHtml;
 }
 
 function handleRadioClick(e) {
@@ -410,12 +405,15 @@ function handleClickOnResults(e) {
   const clickedCardDeleteButton = clickedElement.closest(
     ".result__card__delete"
   );
+  const clickedUpButton = clickedElement.closest(".result__card__up");
+  const clickedDownButton = clickedElement.closest(".result__card__down");
 
   if (clickedCardAddButton) {
     const trackId = clickedCardAddButton.dataset.id;
     let index = lastSearchResults.findIndex((p) => p.trackId == trackId);
     if (index >= 0) {
       playlistData.push(lastSearchResults[index]);
+      addToDesktopPlaylist();
       updatePlaylistItemCounter(playlistData);
       return;
     }
@@ -425,13 +423,38 @@ function handleClickOnResults(e) {
     updatePlaylistItemCounter(playlistData);
   }
   if (clickedCardDeleteButton) {
-    const trackId = clickedCardDeleteButton.dataset.id;
-    //TODO: Delete function
+    const trackId = parseInt(clickedCardDeleteButton.dataset.id);
+    const index = playlistData.findIndex(function (item) {
+      return item.trackId == trackId;
+    });
+    if (index >= 0) {
+      playlistData.splice(index, 1);
+    }
     handleClickOnPlaylist();
-    // }
+  }
+  if (clickedUpButton) {
+    const trackId = parseInt(clickedUpButton.dataset.id);
+    const index = playlistData.findIndex(function (item) {
+      return item.trackId == trackId;
+    });
+    if (index >= 0) {
+      playlistData.move(item.trackId, -1);
+    }
+    handleClickOnPlaylist();
   }
   return;
 }
+
+Array.prototype.move = (element, offset) => {
+  index = this.indexOf(element);
+  newIndex = index + offset;
+
+  if (newIndex > -1 && newIndex < this.length) {
+    removedElement = this.splice(index, 1)[0];
+
+    this.splice(newIndex, 0, removedElement);
+  }
+};
 
 function updatePlaylistItemCounter(playlist) {
   if (playlist === []) {
@@ -442,17 +465,35 @@ function updatePlaylistItemCounter(playlist) {
   document.querySelector(".footer__playlist__counter").innerHTML = counter;
 }
 
-function handleClickOnPlaylist() {
+function handleClickOnPlaylist(className) {
   displaySearchResults(playlistData);
-  const allAddButtons = document.querySelectorAll(".result__card__add");
-  const allDeleteButtons = document.querySelectorAll(".result__card__delete");
-  const allUpButtons = document.querySelectorAll(".result__card__up");
-  const allDownButtons = document.querySelectorAll(".result__card__down");
+  const element =
+    className === ".playlist" ? document.querySelector(className) : document;
+  const allAddButtons = element.querySelectorAll(".result__card__add");
+  const allDeleteButtons = element.querySelectorAll(".result__card__delete");
+  const allUpButtons = element.querySelectorAll(".result__card__up");
+  const allDownButtons = element.querySelectorAll(".result__card__down");
 
   allAddButtons.forEach((add) => add.classList.add("hidden"));
   allDeleteButtons.forEach((del) => del.classList.remove("hidden"));
   allUpButtons.forEach((up) => up.classList.remove("hidden"));
   allDownButtons.forEach((down) => down.classList.remove("hidden"));
+}
+
+function addToDesktopPlaylist() {
+  const mq = window.matchMedia("(min-width: 1024px)");
+  mq.addListener(widthChange);
+  widthChange(mq);
+}
+console.log(window.devicePixelRatio);
+function widthChange(mq) {
+  console.log(mq);
+  if (mq.matches) {
+    console.log("test");
+    displayPlaylistSection(playlistData);
+  } else {
+    return null;
+  }
 }
 
 function handleClickOnSearchGlass() {

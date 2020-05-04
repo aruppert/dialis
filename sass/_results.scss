@@ -3,7 +3,13 @@
   flex-flow: column;
   justify-content: center;
   align-items: center;
+
+  @include desktop {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+  }
 }
+
 .result__card {
   border-radius: 0.6rem;
   border: 2px solid $main-color;
@@ -11,22 +17,27 @@
   margin: 0.2rem 0 0;
   position: relative;
   @include box-shadow;
+  @include desktop {
+    margin: 0.4rem;
+  }
+}
+
+.result__card__audio__player {
+  width: 100%;
+  transform: translateX(15px);
 }
 
 .result__card__content {
   display: grid;
   grid-template-columns: 100px 1fr 30px;
-  grid-template-rows: repeat(3, 1fr);
-  grid-column-gap: 1px;
+  grid-column-gap: 0.2rem;
   grid-row-gap: 1px;
   overflow: hidden;
 }
 .result__card__image {
-  //   display: flex;
   align-self: center;
   grid-column: 1 / 2;
-  grid-row: 1 / 4;
-  align-items: center;
+  grid-row: 1 / 5;
 }
 
 .result__card__image__tag {
@@ -35,59 +46,33 @@
   margin: auto;
 }
 
-.result__card__info {
-  grid-area: 1 / 2 / 4 /3;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr 1fr 2fr;
-  padding: 0.2rem 0.3rem;
-  width: 100%;
-  font-size: 0.75rem;
+.result__card__artist {
+  grid-area: 1 / 2 / 2 / 3;
 }
 
-.result__card__info__row1 {
-  grid-area: 1 / 1 / 2 /2;
-  display: grid;
-  grid-template-columns: 1fr 1fr 60px;
-  grid-template-rows: 1fr;
+.result__card__track {
+  grid-area: 2 / 2 / 3 / 3;
 }
-
-.result__card__info__row2 {
-  grid-area: 2 / 1 / 3 /2;
-  display: grid;
-  grid-template-columns: 2fr 1fr 100px;
-  grid-template-rows: 1fr;
+.result__card__collection {
+  grid-area: 3 / 2 / 4 / 3;
 }
-
-.result__card__info__row3 {
+.result__card__release-kind {
+  grid-area: 4 / 2 / 5 / 3;
   display: flex;
-  justify-content: space-evenly;
-  grid-area: 3 / 1 / 4 /2;
+  align-items: center;
+}
+.result__card__artist {
+  grid-area: 1 / 2 / 2 / 3;
 }
 
 .result__card__release {
   align-self: center;
 }
 
-.result__card__iframe-container {
-  //   flex-grow: 1;
-  display: flex;
-  align-items: center;
-
-  iframe {
-    width: 150px;
-    align-self: center;
-    //   width: 80%;
-    overflow: scroll;
-    background: none;
-    height: 60px;
-    margin: 0;
-  }
+.result__card__audio-container {
+  grid-area: 5 / 1 / 6 / 3;
 }
 
-.result__card__buttons {
-  //   grid-area: ;
-}
 .result__card__delete,
 .result__card__add,
 .result__card__up,
@@ -102,25 +87,26 @@
 }
 .result__card__delete,
 .result__card__add {
+  grid-area: 3 / 3 / 4 / 4;
   background: white;
-  position: absolute;
-  right: 0;
-  top: center;
-  transform: translateX(50%);
+  //   position: absolute;
+  //   right: 0;
+  //   top: center;
+  //   transform: translateX(50%);
 }
 
-.result__card__down,
+// .result__card__down,
+// .result__card__up {
+//   position: absolute;
+//   right: 0;
+//   transform: translateX(50%);
+// }
 .result__card__up {
-  position: absolute;
-  right: 0;
-  transform: translateX(50%);
-}
-.result__card__up {
-  top: 0;
+  grid-area: 2 / 3 / 3 / 4;
 }
 
 .result__card__down {
-  bottom: 0;
+  grid-area: 4 / 3 / 5 / 4;
 }
 
 .hidden {

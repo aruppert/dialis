@@ -10,3 +10,17 @@
   -moz-box-shadow: 10px 10px 5px -10px rgba(0, 0, 0, 0.51);
   box-shadow: 10px 10px 5px -10px rgba(0, 0, 0, 0.51);
 }
+$tablet-width: 768px;
+$desktop-width: 1024px;
+
+@mixin tablet {
+  @media (min-width: #{$tablet-width}) and (max-width: #{$desktop-width - 1px}) {
+    @content;
+  }
+}
+
+@mixin desktop {
+  @media (min-width: #{$desktop-width}) {
+    @content;
+  }
+}
