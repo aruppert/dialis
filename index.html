@@ -42,32 +42,32 @@
         <div class="search__options">
           <div class="search__options__music">
             <input
-              type="checkbox"
-              name="music"
+              type="Radio"
+              name="media-type"
               id="music"
               class="search__options__music-input"
               checked
-              onclick="handleCheckboxClick(this)"
+              onclick="handleRadioClick(this)"
             />
             <label for="music">music</label>
           </div>
           <div class="search__options__podcast">
             <input
-              type="checkbox"
-              name="podcast"
+              type="Radio"
+              name="media-type"
               id="podcast"
               class="search__options__podcast-input"
-              onclick="handleCheckboxClick(this)"
+              onclick="handleRadioClick(this)"
             />
             <label for="podcast">podcast</label>
           </div>
           <div class="search__options__audiobook">
             <input
-              type="checkbox"
-              name="audiobook"
+              type="Radio"
+              name="media-type"
               id="audiobook"
               class="search__options__audiobook-input"
-              onclick="handleCheckboxClick(this)"
+              onclick="handleRadioClick(this)"
             />
             <label for="audiobook">audiobook</label>
           </div>
@@ -90,38 +90,65 @@
         </button> -->
       </div>
       <div class="results">
-        <div class="result__card" data-id="${trackId}">
+        <div class="result__card">
           <div class="result__card__content">
             <div class="result__card__image">
-              <img
-                class="result__card__image__tag"
-                src="${artworkUrl100}"
-                alt="Artwork thumb nail"
-              />
+              <a
+                href="${collectionViewUrl}"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img
+                  class="result__card__image__tag"
+                  src="${artworkUrl100}"
+                  alt="Artwork thumb nail"
+                />
+              </a>
             </div>
             <div class="result__card__info">
               <div class="result__card__info__row1">
                 <div class="result__card__artist">
-                  <span>🧑‍🎨: </span>${artistName}
+                  <a
+                    href="${artistURL}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >🧑‍🎨: ${artistName}</a
+                  >
                 </div>
-                <div class="result__card__track" id="${trackId}">
-                  <span>🎼: </span>${trackName}
+                <div class="result__card__track">
+                  <a
+                    href="${trackViewUrl}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >🏷: ${trackName}</a
+                  >
+                </div>
+                <div class="result__card__kind">
+                  <span>Type: </span>${kindEmoji}
                 </div>
               </div>
               <div class="result__card__info__row2">
                 <div class="result__card__collection">
-                  <span>💽: </span>${collectionName}
+                  <a
+                    href="${collectionViewUrl}"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    >💽: ${collectionName}
+                  </a>
                 </div>
                 <div class="result__card__genre">
                   <span>🎭: </span>${primaryGenreName}
                 </div>
+                <div class="result__card__release">
+                  <span>📅: </span>${newReleaseDate}
+                </div>
               </div>
               <div class="result__card__info__row3">
                 <div class="result__card__iframe-container">
-                  <iframe autoplay="0" src="" frameborder="0"></iframe>
-                </div>
-                <div class="result__card__release">
-                  <span>📅: </span>${newReleaseDate}
+                  <audio controls preload="none">
+                    <source src="${previewUrl}" type="audio/mp4" />
+                    <p>Your browser does not support HTML5 audio.</p>
+                  </audio>
                 </div>
               </div>
             </div>
@@ -132,10 +159,10 @@
               <button class="result__card__down hidden">
                 <img src="/svg/down.svg" alt="down icon" />
               </button>
-              <button class="result__card__add">
+              <button class="result__card__add" data-id="${trackId}">
                 <img src="/svg/add.svg" alt="add icon" />
               </button>
-              <button class="result__card__delete hidden">
+              <button class="result__card__delete hidden" data-id="${trackId}">
                 <img src="/svg/delete.svg" alt="Delete icon" />
               </button>
             </div>
