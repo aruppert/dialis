@@ -1,0 +1,39 @@
+.instructions {
+  border-radius: 0.6rem;
+  border: 2px solid $main-color;
+  width: 99%;
+  @include box-shadow;
+  margin: 0.2rem 0;
+  position: relative;
+  padding: 0.2rem 0.5rem 1rem;
+  ol {
+    margin: 0;
+    padding: 0 0 0 1rem;
+  }
+  li {
+    margin: 0.3rem 0 0;
+    line-height: 1rem;
+  }
+  p {
+    text-align: center;
+    line-height: 1rem;
+  }
+  @include tablet-desktop {
+    p,
+    li {
+      line-height: 1.5rem;
+    }
+  }
+}
+
+.instructions__hide {
+  background: none;
+  position: absolute;
+  right: 0.4rem;
+  bottom: 0.3rem;
+  color: $accent-color2;
+  border-radius: 0.6rem;
+  border: 2px solid $accent-color2;
+  width: fit-content;
+  padding: 0.1rem 0.3rem;
+}

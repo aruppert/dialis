@@ -9,7 +9,7 @@
       href="https://fonts.googleapis.com/css2?family=Audiowide&display=swap"
       rel="stylesheet"
     />
-    <title>dialis - Playlist challenge in challenging times #stayhome</title>
+    <title>dialis - playlists for challenging times #COVID19</title>
   </head>
   <body>
     <header class="header">
@@ -21,15 +21,19 @@
             alt="Sound wave logo"
           />
         </div>
-        <span class="header__logo__text">dialis</span>
+        <h1 class="header__logo__text">+dialis</h1>
       </div>
       <nav>
-        <a href="/">Clean up</a>
-        <button class="header__paste">Paste</button>
+        <button class="header__instructions">
+          Instructions
+        </button>
+        <p class="corona__hashtag">
+          #StayAtHome
+        </p>
       </nav>
     </header>
     <main>
-      <div class="search">
+      <section class="search">
         <div class="search__bar">
           <input
             type="search"
@@ -41,37 +45,49 @@
         </div>
         <div class="search__options">
           <div class="search__options__music">
+            <label for="music" class="search__options__music__label">
+              <span>🎹</span>
+              music</label
+            >
             <input
-              type="checkbox"
-              name="music"
+              type="Radio"
+              name="media-type"
               id="music"
               class="search__options__music-input"
               checked
-              onclick="handleCheckboxClick(this)"
+              onclick="handleRadioClick(this)"
             />
-            <label for="music">music</label>
           </div>
           <div class="search__options__podcast">
+            <label for="podcast" class="search__options__podcast__label">
+              <span>
+                🗣
+              </span>
+              podcast</label
+            >
             <input
-              type="checkbox"
-              name="podcast"
+              type="Radio"
+              name="media-type"
               id="podcast"
               class="search__options__podcast-input"
-              onclick="handleCheckboxClick(this)"
+              onclick="handleRadioClick(this)"
             />
-            <label for="podcast">podcast</label>
           </div>
           <div class="search__options__audiobook">
+            <label for="audiobook" class="search__options__audiobook__label">
+              <span>📖</span>
+              audiobook</label
+            >
             <input
-              type="checkbox"
-              name="audiobook"
+              type="Radio"
+              name="media-type"
               id="audiobook"
               class="search__options__audiobook-input"
-              onclick="handleCheckboxClick(this)"
+              onclick="handleRadioClick(this)"
             />
-            <label for="audiobook">audiobook</label>
           </div>
           <div class="search__options__limit">
+            <label for="limit">results</label>
             <input
               type="number"
               min="1"
@@ -79,117 +95,100 @@
               name="limit"
               id="limit"
               class="search__options__limit-input"
-              placeholder="5"
+              placeholder="24"
             />
-            <label for="limit">results</label>
           </div>
         </div>
-
-        <!-- <button class="search__button">
-          Do it!
-        </button> -->
-      </div>
-      <div class="results">
-        <div class="result__card" data-id="${trackId}">
-          <div class="result__card__content">
-            <div class="result__card__image">
-              <img
-                class="result__card__image__tag"
-                src="${artworkUrl100}"
-                alt="Artwork thumb nail"
-              />
-            </div>
-            <div class="result__card__info">
-              <div class="result__card__info__row1">
-                <div class="result__card__artist">
-                  <span>🧑‍🎨: </span>${artistName}
-                </div>
-                <div class="result__card__track" id="${trackId}">
-                  <span>🎼: </span>${trackName}
-                </div>
-              </div>
-              <div class="result__card__info__row2">
-                <div class="result__card__collection">
-                  <span>💽: </span>${collectionName}
-                </div>
-                <div class="result__card__genre">
-                  <span>🎭: </span>${primaryGenreName}
-                </div>
-              </div>
-              <div class="result__card__info__row3">
-                <div class="result__card__iframe-container">
-                  <iframe autoplay="0" src="" frameborder="0"></iframe>
-                </div>
-                <div class="result__card__release">
-                  <span>📅: </span>${newReleaseDate}
-                </div>
-              </div>
-            </div>
-            <div class="result__card__buttons">
-              <button class="result__card__up hidden">
-                <img src="/svg/up.svg" alt="up icon" />
-              </button>
-              <button class="result__card__down hidden">
-                <img src="/svg/down.svg" alt="down icon" />
-              </button>
-              <button class="result__card__add">
-                <img src="/svg/add.svg" alt="add icon" />
-              </button>
-              <button class="result__card__delete hidden">
-                <img src="/svg/delete.svg" alt="Delete icon" />
-              </button>
-            </div>
+      </section>
+      <section class="tablet__notification">
+        Welcome to tablet mode 🎉 Feel the music 🎶 Enjoy the app 🎁 Stay safe
+        🏡
+      </section>
+      <section class="instructions">
+        <ol>
+          <li>
+            Adjust search parameters above: Choose media type (🎹/🗣/📖) and the
+            amount of results.
+          </li>
+          <li>Enter search term and hit 'Return'.</li>
+          <li>
+            Browse results: Play previews or get additional info. Just click on
+            artist 🧑‍🎨, title 🏷, album 💽 or the album cover. 📅 lists the
+            release date.
+          </li>
+          <li>
+            Add songs to playlist with a click on
+            <img src="/svg/add.svg" alt="add button" height="12px" />.
+          </li>
+        </ol>
+        <p>
+          To see and edit your playlist click
+          <img src="/svg/playlist.svg" alt="playlist icon" height="13px" />.
+          Delete titles with
+          <img src="/svg/delete.svg" alt="delete icon" height="12px" /> and
+          change the order with
+          <img src="/svg/up.svg" alt="up icon" height="12px" /> or
+          <img src="/svg/down.svg" alt="down icon" height="12px" />. Mail it to
+          a friend with
+          <img src="/svg/paper-plane.svg" height="13px" alt="mail icon" />. If
+          you have received a playlist: Copy code to clipboard and click
+          <img src="/svg/paste.svg" height="13px" alt="clipboard icon" />.
+        </p>
+        <button class="instructions__hide">Hide instructions</button>
+      </section>
+      <section class="main__content">
+        <section class="results">
+          <div class="result__card"></div>
+        </section>
+        <aside class="desktop__playlist">
+          <h2>Playlist Preview</h2>
+          <div class="desktop__playlist__content">
+            <p>
+              Your playlist is still empty...
+            </p>
           </div>
-        </div>
-      </div>
-      <div class="playlist__preview hidden">
-        <p class="playlist__preview__text"></p>
-        <a href="#" class="playlist__preview__mailto"> Send now! 📤</a>
+        </aside>
+      </section>
+      <div class="send-playlist hidden">
+        <p class="send-playlist__text"></p>
+        <a href="#" class="send-playlist__mailto"> Send now! 📤</a>
       </div>
     </main>
     <footer>
       <button class="footer__mail-button">
-        <div class="footer__mail-button__icon">
+        <figure class="footer__mail-button__icon">
           <img
             class="footer__mail-button__svg"
             src="/svg/paper-plane.svg"
             alt="Paper plane icon"
           />
-        </div>
-        <span class="footer__mail-button__text">send </span>
+          <figcaption class="footer__mail-button__text">send</figcaption>
+        </figure>
       </button>
       <button class="footer__paste-button">
-        <div class="footer__paste-button__icon">
+        <figure class="footer__paste-button__icon">
           <img
             class="footer__paste-button__svg"
             src="/svg/paste.svg"
             alt="clipboard icon"
           />
-        </div>
-        <span class="footer__paste-button__text">paste code</span>
+          <figcaption class="footer__paste-button__text">paste code</figcaption>
+        </figure>
       </button>
-      <!-- <button class="footer__search-button">
-        <div class="footer__search-button__icon">
-          <img
-            class="footer__search-button__svg"
-            src="/svg/search-glass.svg"
-            alt="Search glass logo"
-          />
-        </div>
-        <span class="footer__search-button__text">search </span>
-      </button> -->
       <button class="footer__playlist-button">
         <div class="footer__playlist-button__icon">
-          <div class="footer__playlist-button__wrapper">
+          <figure class="footer__playlist-button__wrapper">
             <img
               class="footer__playlist-button__svg"
               src="/svg/playlist.svg"
               alt="Playlist icon"
             />
             <div class="footer__playlist__counter">-</div>
-          </div>
+          </figure>
+          <figcaption class="footer__playlist-button__text">
+            playlist
+          </figcaption>
         </div>
-        <span class="footer__playlist-button__text">playlist</span>
       </button>
     </footer>
   </body>

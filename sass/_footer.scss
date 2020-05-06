@@ -6,6 +6,9 @@ footer {
   align-items: center;
   height: 60px;
   width: 100%;
+  figure {
+    margin: 0;
+  }
 }
 
 .footer__playlist-button,
@@ -19,15 +22,6 @@ footer {
   border: none;
 }
 
-.footer__playlist-button__text,
-.footer__mail-button__text,
-.footer__search-button__text {
-  color: $light-color;
-}
-.footer__paste-button__text {
-  color: $accent-color2;
-}
-
 .footer__logo {
   margin: 0 0 0 1rem;
 }
@@ -36,7 +30,10 @@ footer {
   opacity: 0.9;
 }
 
-.footer__logo__text {
+.footer__logo__text,
+.footer__paste-button__text,
+.footer__playlist-button__text,
+.footer__mail-button__text {
   color: $light-color;
 }
 
@@ -45,6 +42,10 @@ footer {
   display: flex;
   justify-content: space-between;
   width: 100%;
+}
+
+.footer__playlist-button__icon {
+  flex-flow: column;
 }
 
 .footer__playlist__counter {

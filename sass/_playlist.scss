@@ -1,4 +1,4 @@
-.playlist__preview {
+.send-playlist {
   display: flex;
   flex-flow: column;
   justify-content: center;
@@ -14,11 +14,32 @@
   @include three-round-borders;
   transform: translateX(-50%);
   transform: translateY(-50%);
-
   p {
     text-align: center;
   }
   a {
     font-size: 1.4rem;
   }
+}
+
+.desktop__playlist {
+  display: none;
+  border-radius: 0.6rem;
+  border: 2px solid $main-color;
+  @include box-shadow;
+  width: 99%;
+  margin: 0.2rem 0.8rem 0.1rem 0;
+  @include desktop {
+    display: block;
+  }
+  p {
+    margin: 0;
+    text-align: center;
+    font-weight: bold;
+  }
+}
+
+.preview__audio-container {
+  display: flex;
+  justify-content: center;
 }

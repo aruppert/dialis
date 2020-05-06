@@ -7,10 +7,6 @@
 @import "results";
 @import "playlist";
 @import "search";
+@import "instructions";
+@import "general";
 
-body {
-  display: flex;
-  flex-flow: column;
-  height: 100vh;
-  font-family: "Audiowide", cursive;
-}
