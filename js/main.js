@@ -1,3 +1,4 @@
+//Initiate variables with undefined or standard values
 let results = [];
 let lastSearchResults = [];
 let playlistData = [];
@@ -5,6 +6,7 @@ let playlistPreview = "";
 let recipient = "pleaseChange@thisAdress.now";
 let counter = 0;
 let mediaType = "music";
+let hideInstructions = false;
 const defaultResults = [
   {
     wrapperType: "track",
@@ -208,7 +210,6 @@ const defaultResults = [
   results = [...defaultResults];
 
   displaySearchResults(results);
-  addToDesktopPlaylist();
 
   document
     .querySelector(".search-input")
@@ -222,10 +223,6 @@ const defaultResults = [
     .querySelector(".footer__playlist-button")
     .addEventListener("click", handleClickOnPlaylist);
 
-  //   document
-  //     .querySelector(".footer__search-button")
-  //     .addEventListener("click", handleClickOnSearchGlass);
-
   document
     .querySelector(".footer__paste-button")
     .addEventListener("click", handleClickOnPaste);
@@ -235,12 +232,22 @@ const defaultResults = [
     .addEventListener("click", handleClickOnSend);
 
   document
-    .querySelector(".header__paste")
-    .addEventListener("click", handleClickOnPaste);
+    .querySelector(".send-playlist__mailto")
+    .addEventListener("click", hidePreviewAndSendNow);
 
   document
-    .querySelector(".playlist__preview__mailto")
-    .addEventListener("click", hidePreviewAndSendNow);
+    .querySelector(".instructions__hide")
+    .addEventListener("click", toggleInstructions);
+
+  document
+    .querySelector(".header__instructions")
+    .addEventListener("click", toggleInstructions);
+
+  hideInstructions = sessionStorage.getItem("hideInstructions");
+
+  if (hideInstructions) {
+    document.querySelector(".instructions").classList.add("displaynone");
+  }
 })();
 
 function getResultCardHtml({
@@ -254,7 +261,6 @@ function getResultCardHtml({
   collectionName,
   collectionViewUrl,
   previewUrl,
-  primaryGenreName,
   releaseDate,
   kind,
 }) {
@@ -337,7 +343,7 @@ function getResultCardHtml({
       <img src="/svg/down.svg" alt="down icon" />
     </button>
     <button class="result__card__add" data-id="${trackId}">
-      <img src="/svg/add.svg" alt="add icon" />
+      <img src="/svg/add.svg" alt="add icon" class="result__card__add__img"/>
     </button>
     <button class="result__card__delete hidden" data-id="${trackId}">
       <img src="/svg/delete.svg" alt="Delete icon" />
@@ -347,6 +353,80 @@ function getResultCardHtml({
 `;
 
   return html;
+}
+function getSidePlaylistHtml(
+  {
+    artistName,
+    artworkUrl60,
+    trackName,
+    trackId,
+    collectionName,
+    previewUrl,
+    kind,
+  },
+  i
+) {
+  let position = i + 1;
+  let kindEmoji = "";
+  switch (kind) {
+    case "song":
+      kindEmoji = "🎹";
+      break;
+    case "podcast":
+      kindEmoji = "🗣";
+      break;
+    case undefined:
+      kindEmoji = "📖";
+      break;
+  }
+  let artistURL = "";
+  const html = `<div class="result__card">
+  <div class="result__card__content">
+    <div class="result__card__image">
+        <img
+          class="result__card__image__tag"
+          src="${artworkUrl60}"
+          alt="Artwork thumb nail"
+        />
+      
+    </div>
+    <div class="result__card__artist">
+     🧑‍🎨: ${artistName}
+      
+    </div>
+    <div class="result__card__track">
+     🏷: ${trackName}
+      
+    </div>
+    <div class="result__card__collection">
+    💽: ${collectionName}
+      
+    </div>
+    <p>${position}</p>
+    </div>
+    <div class="preview__audio-container">
+      <audio class="preview__audio__player" controls preload="none">
+        <source src="${previewUrl}" type="audio/mp4" />
+        <p>Your browser does not support HTML5 audio.</p>
+      </audio>
+    </div>
+  </div>
+</div>
+`;
+
+  return html;
+}
+
+function toggleInstructions() {
+  if (hideInstructions) {
+    hideInstructions = false;
+    sessionStorage.setItem("hideInstructions", false);
+    document.querySelector(".instructions").classList.remove("displaynone");
+  } else {
+    hideInstructions = true;
+    sessionStorage.setItem("hideInstructions", true);
+    document.querySelector(".instructions").classList.add("displaynone");
+  }
 }
 
 function displaySearchResults(results) {
@@ -359,25 +439,44 @@ function displaySearchResults(results) {
 
 function displayPlaylistSection(results) {
   let playlistHtml = ``;
-  for (let result of results) {
-    playlistHtml += getResultCardHtml(result);
+  for (let i = 0; i < results.length; i++) {
+    playlistHtml += getSidePlaylistHtml(results[i], i);
   }
-  document.querySelector(".playlist").innerHTML = playlistHtml;
+  document.querySelector(
+    ".desktop__playlist__content"
+  ).innerHTML = playlistHtml;
 }
 
 function handleRadioClick(e) {
   const value = e.id;
-  console.log(value);
   mediaType = value;
+  const searchTerm = document.querySelector(".search-input").value;
+  searchForMedia(searchTerm);
+}
+
+function move(array, oldIndex, newIndex) {
+  while (oldIndex < 0) {
+    oldIndex += array.length;
+  }
+  while (newIndex < 0) {
+    newIndex += array.length;
+  }
+  array.splice(newIndex, 0, array.splice(oldIndex, 1)[0]);
+  return array;
 }
 
 async function searchForMedia(e) {
-  const searchTerm = e.currentTarget.value;
-  const limit = document.querySelector(".search__options__limit-input").value;
+  let searchTerm = "";
+  if (!e.currentTarget) {
+    searchTerm = e;
+  } else {
+    searchTerm = e.currentTarget.value;
+  }
+  const limit =
+    document.querySelector(".search__options__limit-input").value || 24;
 
   if (!searchTerm) {
     results = [...defaultResults];
-
     displaySearchResults(results);
     return;
   }
@@ -385,7 +484,6 @@ async function searchForMedia(e) {
     const appleAPIUrl = `https://itunes.apple.com/search?media=${mediaType}&term=${searchTerm}&limit=${limit}`;
 
     const response = await fetch(appleAPIUrl);
-
     const searchResultData = await response.json();
 
     if (searchResultData.results) {
@@ -413,7 +511,6 @@ function handleClickOnResults(e) {
     let index = lastSearchResults.findIndex((p) => p.trackId == trackId);
     if (index >= 0) {
       playlistData.push(lastSearchResults[index]);
-      addToDesktopPlaylist();
       updatePlaylistItemCounter(playlistData);
       return;
     }
@@ -421,6 +518,7 @@ function handleClickOnResults(e) {
 
     playlistData.push(defaultResults[index]);
     updatePlaylistItemCounter(playlistData);
+    updateDesktopPlaylistPreview();
   }
   if (clickedCardDeleteButton) {
     const trackId = parseInt(clickedCardDeleteButton.dataset.id);
@@ -430,31 +528,40 @@ function handleClickOnResults(e) {
     if (index >= 0) {
       playlistData.splice(index, 1);
     }
+    updatePlaylistItemCounter(playlistData);
     handleClickOnPlaylist();
+    updateDesktopPlaylistPreview();
   }
   if (clickedUpButton) {
     const trackId = parseInt(clickedUpButton.dataset.id);
     const index = playlistData.findIndex(function (item) {
       return item.trackId == trackId;
     });
-    if (index >= 0) {
-      playlistData.move(item.trackId, -1);
+    if (index > 0) {
+      move(playlistData, index, index - 1);
+    } else {
+      return null;
     }
+
     handleClickOnPlaylist();
+    updateDesktopPlaylistPreview();
+  }
+  if (clickedDownButton) {
+    const trackId = parseInt(clickedDownButton.dataset.id);
+    const index = playlistData.findIndex(function (item) {
+      return item.trackId == trackId;
+    });
+    if (index >= 0) {
+      move(playlistData, index, index + 1);
+    } else {
+      return null;
+    }
+
+    handleClickOnPlaylist();
+    updateDesktopPlaylistPreview();
   }
   return;
 }
-
-Array.prototype.move = (element, offset) => {
-  index = this.indexOf(element);
-  newIndex = index + offset;
-
-  if (newIndex > -1 && newIndex < this.length) {
-    removedElement = this.splice(index, 1)[0];
-
-    this.splice(newIndex, 0, removedElement);
-  }
-};
 
 function updatePlaylistItemCounter(playlist) {
   if (playlist === []) {
@@ -480,27 +587,18 @@ function handleClickOnPlaylist(className) {
   allDownButtons.forEach((down) => down.classList.remove("hidden"));
 }
 
-function addToDesktopPlaylist() {
+function updateDesktopPlaylistPreview() {
   const mq = window.matchMedia("(min-width: 1024px)");
   mq.addListener(widthChange);
   widthChange(mq);
 }
-console.log(window.devicePixelRatio);
+
 function widthChange(mq) {
-  console.log(mq);
   if (mq.matches) {
-    console.log("test");
     displayPlaylistSection(playlistData);
   } else {
     return null;
   }
-}
-
-function handleClickOnSearchGlass() {
-  //Doesn't work?
-  scroll(0, 0);
-  //   const resultsHtml = ` Screen cleared - Enter term in search bar for a new search - to clear playlist you (still) have to reload this page - Thx`;
-  //   document.querySelector(".results").innerHTML = resultsHtml;
 }
 
 function createPreviewPlaylistForMail(playlist) {
@@ -530,10 +628,9 @@ function handleClickOnSend() {
   const mailBody = createMailBody(playlistStringified);
 
   document.querySelector(
-    ".playlist__preview__mailto"
+    ".send-playlist__mailto"
   ).href = `mailto:${recipient}?subject=${subject}&body=${mailBody}`;
-  cl();
-  document.querySelector(".playlist__preview").classList.remove("hidden");
+  document.querySelector(".send-playlist").classList.remove("hidden");
 }
 
 function createMailBody(playlistStringified) {
@@ -545,13 +642,9 @@ function createMailBody(playlistStringified) {
 
 function showPreviewPlaylist() {
   const confirmation = `📨... Your playlist has ${counter} songs. Email generated:`;
-  document.querySelector(".playlist__preview__text").innerText = confirmation;
+  document.querySelector(".send-playlist__text").innerText = confirmation;
 }
 
 function hidePreviewAndSendNow() {
-  document.querySelector(".playlist__preview").classList.add("hidden");
-}
-
-function cl(text) {
-  console.log("Test", "next", text);
+  document.querySelector(".send-playlist").classList.add("hidden");
 }

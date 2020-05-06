@@ -7,21 +7,38 @@ header {
   height: 60px;
   width: 100%;
   @include box-shadow;
-
   nav {
     margin: 0 2rem 0;
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
 
     a {
       text-decoration: none;
       color: $light-color;
     }
   }
+  p {
+    margin: 0;
+  }
 }
 
-.header__paste {
+.corona__hashtag {
+  color: $light-color;
+  font-size: 0.75rem;
+}
+
+.header__instructions {
   color: $accent-color2;
   background: transparent;
   border: none;
+  @include tablet {
+    font-size: 1.1rem;
+  }
+  @include desktop {
+    font-size: 1.2rem;
+  }
 }
 
 .header__logo {
@@ -38,5 +55,5 @@ header {
 }
 
 .header__logo__text {
-  color: $accent-color2;
+  color: $light-color;
 }

@@ -24,3 +24,9 @@ $desktop-width: 1024px;
     @content;
   }
 }
+
+@mixin tablet-desktop {
+  @media (min-width: #{$tablet-width}) {
+    @content;
+  }
+}

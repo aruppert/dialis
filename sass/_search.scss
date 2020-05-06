@@ -1,7 +1,7 @@
 .search {
   display: flex;
   flex-flow: column;
-  margin: 0.5rem 0 0.3rem;
+  margin: 0.5rem 0.1rem 0.3rem 0.1rem;
 }
 
 .search-input {
@@ -21,23 +21,44 @@
 }
 
 .search__options {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  margin: 0.2rem 0 0;
+}
+
+.search__options__podcast__label,
+.search__options__music__label,
+.search__options__podcast__label,
+.search__options__audiobook__label {
   display: flex;
-  //   @include border-main-color;
-  font-size: 0.75rem;
-  margin: 0.4rem 0 0;
+  flex-flow: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .search__options__music,
-.search__options__podcasts,
-.search__options__audiobooks,
+.search__options__podcast,
+.search__options__audiobook,
 .search__options__limit {
-  //   color: $main-color;
-  margin: 0 0.5rem 0;
   display: flex;
   align-items: center;
+  label {
+    margin: 0 0.3rem;
+  }
+}
+.search__options__limit {
+  display: flex;
+  flex-flow: column;
+  label {
+    align-self: flex-start;
+    @include tablet-desktop {
+      align-self: center;
+    }
+  }
 }
 
 .search__options__limit-input {
   border: 2px solid $main-color;
   @include three-round-borders;
+  width: fit-content;
 }

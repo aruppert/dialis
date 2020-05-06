@@ -3,8 +3,7 @@
   flex-flow: column;
   justify-content: center;
   align-items: center;
-
-  @include desktop {
+  @include tablet-desktop {
     display: grid;
     grid-template-columns: 1fr 1fr;
   }
@@ -14,11 +13,18 @@
   border-radius: 0.6rem;
   border: 2px solid $main-color;
   width: 99%;
-  margin: 0.2rem 0 0;
+  margin: 0.2rem auto;
   position: relative;
+  font-size: 0.8rem;
   @include box-shadow;
+  @include tablet {
+    width: 98%;
+    font-size: 1rem;
+  }
   @include desktop {
-    margin: 0.4rem;
+    // margin: 0.5rem 1rem 0.5rem 0;
+    width: 97%;
+    font-size: 1rem;
   }
 }
 
@@ -41,20 +47,26 @@
 }
 
 .result__card__image__tag {
-  border-radius: 0.6rem 0 0 0.6rem;
-  border-right: 1px solid $main-color;
+  border-radius: 0.5rem;
   margin: auto;
 }
 
 .result__card__artist {
   grid-area: 1 / 2 / 2 / 3;
+  display: flex;
+  align-items: center;
+  padding: 0.15rem 0 0;
 }
 
 .result__card__track {
   grid-area: 2 / 2 / 3 / 3;
+  display: flex;
+  align-items: center;
 }
 .result__card__collection {
   grid-area: 3 / 2 / 4 / 3;
+  display: flex;
+  align-items: center;
 }
 .result__card__release-kind {
   grid-area: 4 / 2 / 5 / 3;
@@ -63,10 +75,6 @@
 }
 .result__card__artist {
   grid-area: 1 / 2 / 2 / 3;
-}
-
-.result__card__release {
-  align-self: center;
 }
 
 .result__card__audio-container {
@@ -85,22 +93,23 @@
   cursor: pointer;
   outline: inherit;
 }
+
+.result__card__add__img {
+  @include tablet {
+    height: 110%;
+    transform: translateX(-15%);
+  }
+  @include desktop {
+    height: 130%;
+    transform: translateX(-20%);
+  }
+}
 .result__card__delete,
 .result__card__add {
   grid-area: 3 / 3 / 4 / 4;
   background: white;
-  //   position: absolute;
-  //   right: 0;
-  //   top: center;
-  //   transform: translateX(50%);
 }
 
-// .result__card__down,
-// .result__card__up {
-//   position: absolute;
-//   right: 0;
-//   transform: translateX(50%);
-// }
 .result__card__up {
   grid-area: 2 / 3 / 3 / 4;
 }
@@ -112,7 +121,3 @@
 .hidden {
   visibility: hidden;
 }
-
-// .visible {
-//   visibility: visible;
-// }
