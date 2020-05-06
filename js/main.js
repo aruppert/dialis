@@ -3,7 +3,6 @@ let results = [];
 let lastSearchResults = [];
 let playlistData = [];
 let playlistPreview = "";
-let recipient = "pleaseChange@thisAdress.now";
 let counter = 0;
 let mediaType = "music";
 let hideInstructions = false;
@@ -206,6 +205,7 @@ const defaultResults = [
   },
 ];
 
+//Mainly query selected HTML elements and initial display of results from array
 (function initialize() {
   results = [...defaultResults];
 
@@ -250,6 +250,20 @@ const defaultResults = [
   }
 })();
 
+function toggleInstructions() {
+  if (hideInstructions) {
+    hideInstructions = false;
+    sessionStorage.setItem("hideInstructions", false);
+    document.querySelector(".instructions").classList.remove("displaynone");
+  } else {
+    hideInstructions = true;
+    sessionStorage.setItem("hideInstructions", true);
+    document.querySelector(".instructions").classList.add("displaynone");
+  }
+}
+
+// SEARCH - functionality:
+
 function getResultCardHtml({
   artistName,
   artworkUrl100,
@@ -268,6 +282,7 @@ function getResultCardHtml({
   let newReleaseDate = JSON.stringify(newDateFormat);
   newReleaseDate = newReleaseDate.slice(1, 11);
   let kindEmoji = "";
+  let type = kind;
   switch (kind) {
     case "song":
       kindEmoji = "🎹";
@@ -276,6 +291,7 @@ function getResultCardHtml({
       kindEmoji = "🗣";
       break;
     case undefined:
+      type = "audiobook";
       kindEmoji = "📖";
       break;
   }
@@ -314,14 +330,19 @@ function getResultCardHtml({
         >🏷: ${trackName}</a
       >
     </div>
-    <div class="result__card__collection">
-      <a
-        href="${collectionViewUrl}"
-        target="_blank"
-        rel="noopener noreferrer"
-        >💽: ${collectionName}
-      </a>
-    </div>
+   ${
+     collectionName === undefined
+       ? `<div></div>`
+       : `<div class="result__card__collection">
+         <a
+           href="${collectionViewUrl}"
+           target="_blank"
+           rel="noopener noreferrer"
+         >
+           💽: ${collectionName}
+         </a>
+       </div>`
+   }
     <div class="result__card__release-kind">
     <div class="result__card__kind">
       ${kindEmoji}- 
@@ -354,80 +375,6 @@ function getResultCardHtml({
 
   return html;
 }
-function getSidePlaylistHtml(
-  {
-    artistName,
-    artworkUrl60,
-    trackName,
-    trackId,
-    collectionName,
-    previewUrl,
-    kind,
-  },
-  i
-) {
-  let position = i + 1;
-  let kindEmoji = "";
-  switch (kind) {
-    case "song":
-      kindEmoji = "🎹";
-      break;
-    case "podcast":
-      kindEmoji = "🗣";
-      break;
-    case undefined:
-      kindEmoji = "📖";
-      break;
-  }
-  let artistURL = "";
-  const html = `<div class="result__card">
-  <div class="result__card__content">
-    <div class="result__card__image">
-        <img
-          class="result__card__image__tag"
-          src="${artworkUrl60}"
-          alt="Artwork thumb nail"
-        />
-      
-    </div>
-    <div class="result__card__artist">
-     🧑‍🎨: ${artistName}
-      
-    </div>
-    <div class="result__card__track">
-     🏷: ${trackName}
-      
-    </div>
-    <div class="result__card__collection">
-    💽: ${collectionName}
-      
-    </div>
-    <p>${position}</p>
-    </div>
-    <div class="preview__audio-container">
-      <audio class="preview__audio__player" controls preload="none">
-        <source src="${previewUrl}" type="audio/mp4" />
-        <p>Your browser does not support HTML5 audio.</p>
-      </audio>
-    </div>
-  </div>
-</div>
-`;
-
-  return html;
-}
-
-function toggleInstructions() {
-  if (hideInstructions) {
-    hideInstructions = false;
-    sessionStorage.setItem("hideInstructions", false);
-    document.querySelector(".instructions").classList.remove("displaynone");
-  } else {
-    hideInstructions = true;
-    sessionStorage.setItem("hideInstructions", true);
-    document.querySelector(".instructions").classList.add("displaynone");
-  }
-}
 
 function displaySearchResults(results) {
   let resultsHtml = ``;
@@ -435,34 +382,6 @@ function displaySearchResults(results) {
     resultsHtml += getResultCardHtml(result);
   }
   document.querySelector(".results").innerHTML = resultsHtml;
-}
-
-function displayPlaylistSection(results) {
-  let playlistHtml = ``;
-  for (let i = 0; i < results.length; i++) {
-    playlistHtml += getSidePlaylistHtml(results[i], i);
-  }
-  document.querySelector(
-    ".desktop__playlist__content"
-  ).innerHTML = playlistHtml;
-}
-
-function handleRadioClick(e) {
-  const value = e.id;
-  mediaType = value;
-  const searchTerm = document.querySelector(".search-input").value;
-  searchForMedia(searchTerm);
-}
-
-function move(array, oldIndex, newIndex) {
-  while (oldIndex < 0) {
-    oldIndex += array.length;
-  }
-  while (newIndex < 0) {
-    newIndex += array.length;
-  }
-  array.splice(newIndex, 0, array.splice(oldIndex, 1)[0]);
-  return array;
 }
 
 async function searchForMedia(e) {
@@ -495,6 +414,13 @@ async function searchForMedia(e) {
   } catch (error) {
     console.log(error);
   }
+}
+
+function handleRadioClick(e) {
+  const value = e.id;
+  mediaType = value;
+  const searchTerm = document.querySelector(".search-input").value;
+  searchForMedia(searchTerm);
 }
 
 function handleClickOnResults(e) {
@@ -563,6 +489,71 @@ function handleClickOnResults(e) {
   return;
 }
 
+// PLAYLIST related functions:
+
+function getSidePlaylistHtml(
+  {
+    artistName,
+    artworkUrl60,
+    trackName,
+    trackId,
+    collectionName,
+    previewUrl,
+    kind,
+  },
+  i
+) {
+  let position = i + 1;
+  let kindEmoji = "";
+  switch (kind) {
+    case "song":
+      kindEmoji = "🎹";
+      break;
+    case "podcast":
+      kindEmoji = "🗣";
+      break;
+    case undefined:
+      kindEmoji = "📖";
+      break;
+  }
+  let artistURL = "";
+  const html = `<div class="result__card">
+    <div class="result__card__content">
+      <div class="result__card__image">
+          <img
+            class="result__card__image__tag"
+            src="${artworkUrl60}"
+            alt="Artwork thumb nail"
+          />
+        
+      </div>
+      <div class="result__card__artist">
+       🧑‍🎨: ${artistName}
+        
+      </div>
+      <div class="result__card__track">
+       🏷: ${trackName}
+        
+      </div>
+      <div class="result__card__collection">
+      💽: ${collectionName}
+        
+      </div>
+      <p>${position}</p>
+      </div>
+      <div class="preview__audio-container">
+        <audio class="preview__audio__player" controls preload="none">
+          <source src="${previewUrl}" type="audio/mp4" />
+          <p>Your browser does not support HTML5 audio.</p>
+        </audio>
+      </div>
+    </div>
+  </div>
+  `;
+
+  return html;
+}
+
 function updatePlaylistItemCounter(playlist) {
   if (playlist === []) {
     return;
@@ -587,10 +578,31 @@ function handleClickOnPlaylist(className) {
   allDownButtons.forEach((down) => down.classList.remove("hidden"));
 }
 
+function displayPlaylistSection(results) {
+  let playlistHtml = ``;
+  for (let i = 0; i < results.length; i++) {
+    playlistHtml += getSidePlaylistHtml(results[i], i);
+  }
+  document.querySelector(
+    ".desktop__playlist__content"
+  ).innerHTML = playlistHtml;
+}
+
 function updateDesktopPlaylistPreview() {
   const mq = window.matchMedia("(min-width: 1024px)");
   mq.addListener(widthChange);
   widthChange(mq);
+}
+
+function move(array, oldIndex, newIndex) {
+  while (oldIndex < 0) {
+    oldIndex += array.length;
+  }
+  while (newIndex < 0) {
+    newIndex += array.length;
+  }
+  array.splice(newIndex, 0, array.splice(oldIndex, 1)[0]);
+  return array;
 }
 
 function widthChange(mq) {
@@ -601,36 +613,28 @@ function widthChange(mq) {
   }
 }
 
+//SEND - functionality:
+
+function handleClickOnSend() {
+  playlistPreview = "";
+  createPreviewPlaylistForMail(playlistData);
+  showSendPlaylistPopUp();
+  const playlistStringified = JSON.stringify(playlistData);
+  const subject =
+    "❤️%20A%20playlist%20for%20you%20from%20someone%20who%20cares!%20powered%20by%20dialis.code%20-%20your%20playlist%20app";
+  const mailBody = createMailBody(playlistStringified);
+  document.querySelector(
+    ".send-playlist__mailto"
+  ).href = `mailto:change@email.here?subject=${subject}&body=${mailBody}`;
+  document.querySelector(".send-playlist").classList.remove("hidden");
+}
+
 function createPreviewPlaylistForMail(playlist) {
   for (let i = 0; i < playlist.length; i++) {
     let position = i + 1;
     playlistPreview += `${position}.%20${playlist[i].trackName}%20-%20${playlist[i].artistName}%20(${playlist[i].collectionName})%0d`;
   }
   return playlistPreview;
-}
-
-async function handleClickOnPaste() {
-  const clipboardContent = await navigator.clipboard.readText();
-  const arrayFromClipboard = await JSON.parse(clipboardContent);
-
-  playlistData = arrayFromClipboard;
-
-  updatePlaylistItemCounter(playlistData);
-  handleClickOnPlaylist();
-}
-
-function handleClickOnSend() {
-  createPreviewPlaylistForMail(playlistData);
-  showPreviewPlaylist();
-  const playlistStringified = JSON.stringify(playlistData);
-  const subject =
-    "❤️%20A%20playlist%20for%20you%20from%20someone%20who%20cares!%20powered%20by%20dialis.code%20-%20your%20playlist%20app";
-  const mailBody = createMailBody(playlistStringified);
-
-  document.querySelector(
-    ".send-playlist__mailto"
-  ).href = `mailto:${recipient}?subject=${subject}&body=${mailBody}`;
-  document.querySelector(".send-playlist").classList.remove("hidden");
 }
 
 function createMailBody(playlistStringified) {
@@ -640,11 +644,23 @@ function createMailBody(playlistStringified) {
   return mailBody;
 }
 
-function showPreviewPlaylist() {
+function showSendPlaylistPopUp() {
   const confirmation = `📨... Your playlist has ${counter} songs. Email generated:`;
   document.querySelector(".send-playlist__text").innerText = confirmation;
 }
 
 function hidePreviewAndSendNow() {
   document.querySelector(".send-playlist").classList.add("hidden");
+}
+
+// PASTE - functionality:
+
+async function handleClickOnPaste() {
+  const clipboardContent = await navigator.clipboard.readText();
+  const arrayFromClipboard = await JSON.parse(clipboardContent);
+
+  playlistData = arrayFromClipboard;
+
+  updatePlaylistItemCounter(playlistData);
+  handleClickOnPlaylist();
 }

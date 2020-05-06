@@ -138,78 +138,7 @@
       </section>
       <section class="main__content">
         <section class="results">
-          <div class="result__card">
-            <div class="result__card__content">
-              <div class="result__card__image">
-                <a
-                  href="${collectionViewUrl}"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <img
-                    class="result__card__image__tag"
-                    src="${artworkUrl100}"
-                    alt="Artwork thumb nail"
-                  />
-                </a>
-              </div>
-              <div class="result__card__artist">
-                <a href="${artistURL}" target="_blank" rel="noopener noreferrer"
-                  >🧑‍🎨: ${artistName}</a
-                >
-              </div>
-              <div class="result__card__track">
-                <a
-                  href="${trackViewUrl}"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >🏷: ${trackName}</a
-                >
-              </div>
-              <div class="result__card__collection">
-                <a
-                  href="${collectionViewUrl}"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  >💽: ${collectionName}
-                </a>
-              </div>
-              <div class="result__card__release-kind">
-                <div class="result__card__kind">
-                  ${kindEmoji}-
-                </div>
-                <div class="result__card__release">
-                  <span>📅: </span>${newReleaseDate}
-                </div>
-              </div>
-              <div class="result__card__audio-container">
-                <audio
-                  class="result__card__audio__player"
-                  controls
-                  preload="none"
-                >
-                  <source src="${previewUrl}" type="audio/mp4" />
-                  <p>Your browser does not support HTML5 audio.</p>
-                </audio>
-              </div>
-              <button class="result__card__up hidden" data-id="${trackId}">
-                <img src="/svg/up.svg" alt="up icon" />
-              </button>
-              <button class="result__card__down hidden" data-id="${trackId}">
-                <img src="/svg/down.svg" alt="down icon" />
-              </button>
-              <button class="result__card__add" data-id="${trackId}">
-                <img
-                  src="/svg/add.svg"
-                  alt="add icon"
-                  class="result__card__add__img"
-                />
-              </button>
-              <button class="result__card__delete hidden" data-id="${trackId}">
-                <img src="/svg/delete.svg" alt="Delete icon" />
-              </button>
-            </div>
-          </div>
+          <div class="result__card"></div>
         </section>
         <aside class="desktop__playlist">
           <h2>Playlist Preview</h2>
@@ -255,9 +184,11 @@
               alt="Playlist icon"
             />
             <div class="footer__playlist__counter">-</div>
-          </div>
-          <figcaption class="footer__playlist-button__text">playlist</figcaption>
-        </figure>
+          </figure>
+          <figcaption class="footer__playlist-button__text">
+            playlist
+          </figcaption>
+        </div>
       </button>
     </footer>
   </body>

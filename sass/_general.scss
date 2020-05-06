@@ -1,0 +1,14 @@
+:root {
+  color: $text-color;
+}
+
+body {
+  display: flex;
+  flex-flow: column;
+  height: 100vh;
+  font-family: "Audiowide", cursive;
+}
+
+.displaynone {
+  display: none;
+}

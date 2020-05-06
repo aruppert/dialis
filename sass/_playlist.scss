@@ -14,7 +14,6 @@
   @include three-round-borders;
   transform: translateX(-50%);
   transform: translateY(-50%);
-
   p {
     text-align: center;
   }
@@ -22,6 +21,7 @@
     font-size: 1.4rem;
   }
 }
+
 .desktop__playlist {
   display: none;
   border-radius: 0.6rem;
@@ -38,10 +38,8 @@
     font-weight: bold;
   }
 }
+
 .preview__audio-container {
   display: flex;
   justify-content: center;
-}
-
-.preview__audio__player {
 }

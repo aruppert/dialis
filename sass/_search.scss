@@ -24,6 +24,9 @@
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   margin: 0.2rem 0 0;
+  @include xs {
+    font-size: 0.8rem;
+  }
 }
 
 .search__options__podcast__label,
@@ -46,6 +49,7 @@
     margin: 0 0.3rem;
   }
 }
+
 .search__options__limit {
   display: flex;
   flex-flow: column;
